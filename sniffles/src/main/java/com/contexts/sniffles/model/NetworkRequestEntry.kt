@@ -6,7 +6,6 @@ data class NetworkRequestEntry(
     val startTime: Long,
     val duration: Long,
     val statusCode: Int,
-    val isMocked: Boolean = false
 ) {
     val endTime: Long = startTime + duration
 }

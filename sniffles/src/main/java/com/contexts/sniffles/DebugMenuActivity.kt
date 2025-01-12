@@ -291,10 +291,9 @@ private fun RequestListItem(
             modifier = Modifier
                 .size(12.dp)
                 .background(
-                    when {
-                        request.isMocked -> Color.Blue
-                        request.statusCode in 200..299 -> Color.Green
-                        request.statusCode == -1 -> Color.Red
+                    when (request.statusCode) {
+                        in 200..299 -> Color.Green
+                        -1 -> Color.Red
                         else -> Color.Yellow
                     },
                     shape = CircleShape
@@ -327,13 +326,6 @@ private fun RequestListItem(
                     text = if (request.statusCode == -1) "Failed" else "Status: ${request.statusCode}",
                     style = MaterialTheme.typography.bodySmall
                 )
-                if (request.isMocked) {
-                    Text(
-                        text = "Mocked",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
             }
         }
     }
@@ -412,10 +404,9 @@ private fun NetworkTimelineGraph(
                         val requestWidth = (request.duration.toFloat() /
                                 (timeRange.last - timeRange.first) * width).coerceAtLeast(2f)
 
-                        val color = when {
-                            request.isMocked -> Color.Blue
-                            request.statusCode in 200..299 -> Color.Green
-                            request.statusCode == -1 -> Color.Red
+                        val color = when (request.statusCode) {
+                            in 200..299 -> Color.Green
+                            -1 -> Color.Red
                             else -> Color.Yellow
                         }
 
@@ -440,9 +431,6 @@ private fun NetworkTimelineGraph(
                         Text("Method: ${request.method}")
                         Text("Duration: ${request.duration}ms")
                         Text("Status: ${request.statusCode}")
-                        if (request.isMocked) {
-                            Text("(Mocked Response)", color = MaterialTheme.colorScheme.primary)
-                        }
                     }
                 }
             }
@@ -456,7 +444,6 @@ private fun NetworkTimelineGraph(
                 LegendItem(color = Color.Green, text = "Success")
                 LegendItem(color = Color.Yellow, text = "Error")
                 LegendItem(color = Color.Red, text = "Failed")
-                LegendItem(color = Color.Blue, text = "Mocked")
             }
         }
     }
